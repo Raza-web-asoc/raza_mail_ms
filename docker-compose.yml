@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  raza-mails-ms:
+    build: .
+    container_name: raza-mails-ms
+    ports:
+      - "8006:8000"
+    volumes:
+      - .:/app
+    networks:
+      - autenticador_network
+
+networks:
+  autenticador_network:
+    external: true
