@@ -1,15 +1,12 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, EmailStr
+from app.models import EmailRequest
 from app.email_sender import send_email
 
 app = FastAPI()
 
-class EmailRequest(BaseModel):
-    to_email: EmailStr
-    subject: str
-    body: str
 
-@app.post("/send-email/")
+
+@app.post("/send-email")
 async def send_email_endpoint(email_request: EmailRequest):
     result = send_email(
         to_email=email_request.to_email,
