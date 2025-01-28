@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from app.models import EmailRequest
+from app.models.email_request import EmailRequest
 from app.email_sender import send_email
 
 app = FastAPI()
