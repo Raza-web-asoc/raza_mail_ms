@@ -2,8 +2,15 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.config import settings
+from jinja2 import Template
 
-def send_email(to_email: str, subject: str, body: str):
+def send_email(to_email: str, subject: str, body: str, template: str = None, context: dict = None):
+    if template and context:
+        with open(template) as f:
+            template = Template(f.read())
+            body = template.render(context)
+
+
     try:
         # Crear el mensaje de correo
         msg = MIMEMultipart()
@@ -12,7 +19,7 @@ def send_email(to_email: str, subject: str, body: str):
         msg["Subject"] = subject
 
         # Agregar el cuerpo del correo
-        msg.attach(MIMEText(body, "plain"))
+        msg.attach(MIMEText(body, "html"))
 
         # Conexión al servidor SMTP
         with smtplib.SMTP(settings.SMTP_SERVER, settings.SMTP_PORT) as server:
